@@ -6,7 +6,7 @@ pipelines:
     materials:
       gitrepo:
         git: https://github.com/mtararujs/ci_course.git
-        brach: main
+        branch: main
     stages:
       - build:
           jobs:
