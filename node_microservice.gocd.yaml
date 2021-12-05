@@ -55,6 +55,9 @@ pipelines:
       gitrepo:
         git: https://github.com/mtararujs/ci_course.git
         branch: main
+      testmaterial:
+        pipeline: test_docker
+        stage: test_docker
     stages:
       - build:
           jobs:
