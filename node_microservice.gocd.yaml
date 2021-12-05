@@ -7,6 +7,12 @@ common:
         arguments:
           - -c
           - echo "Deployment to ${ENV_NAME} environment"
+  test-tasks: &test-tasks
+    - exec:
+        command: bash
+        arguments:
+          - -c
+          - echo "Testing on ${ENV_NAME} environment"
 
 pipelines:
   node-microservice:
@@ -34,12 +40,7 @@ pipelines:
       - test-dev:
           jobs:
             build:
-              tasks:
-               - exec:
-                   command: bash
-                   arguments:
-                    - -c
-                    - echo "Testing on DEV"
+              tasks: *test-tasks
       - deploy-int:
           environment_variables:
               ENV_NAME: int
@@ -49,12 +50,7 @@ pipelines:
       - test-int:
           jobs:
             build:
-              tasks:
-               - exec:
-                   command: bash
-                   arguments:
-                    - -c
-                    - echo "Testing on INT"
+              tasks: *test-tasks
       - deploy-prd:
           environment_variables:
               ENV_NAME: prd
@@ -64,9 +60,4 @@ pipelines:
       - test-prd:
           jobs:
             build:
-              tasks:
-               - exec:
-                   command: bash
-                   arguments:
-                    - -c
-                    - echo "Testing on PRD"
+              tasks: *test-tasks
