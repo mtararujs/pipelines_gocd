@@ -1,0 +1,18 @@
+---
+format_version: 10
+pipelines:
+  node-microservice:
+    group: microservices
+    materials:
+      gitrepo:
+        git: https://github.com/mtararujs/ci_course.git
+    stages:
+      - build:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Building application"
