@@ -1,5 +1,13 @@
 ---
 format_version: 10
+common:
+  deploy-tasks: &deploy-tasks
+    - exec:
+        command: bash
+        arguments:
+          - -c
+          - echo "Deployment to ${ENV_NAME} environment"
+
 pipelines:
   node-microservice:
     group: microservices
@@ -18,14 +26,11 @@ pipelines:
                     - -c
                     - echo "Building application"
       - deploy-dev:
+          environment_variables:
+              ENV_NAME: dev
           jobs:
             build:
-              tasks:
-               - exec:
-                   command: bash
-                   arguments:
-                    - -c
-                    - echo "Deployment to DEV"
+              tasks: *deploy-tasks
       - test-dev:
           jobs:
             build:
@@ -36,14 +41,11 @@ pipelines:
                     - -c
                     - echo "Testing on DEV"
       - deploy-int:
+          environment_variables:
+              ENV_NAME: int
           jobs:
             build:
-              tasks:
-               - exec:
-                   command: bash
-                   arguments:
-                    - -c
-                    - echo "Deployment to INT"
+              tasks: *deploy-tasks
       - test-int:
           jobs:
             build:
@@ -54,14 +56,11 @@ pipelines:
                     - -c
                     - echo "Testing on INT"
       - deploy-prd:
+          environment_variables:
+              ENV_NAME: prd
           jobs:
             build:
-              tasks:
-               - exec:
-                   command: bash
-                   arguments:
-                    - -c
-                    - echo "Deployment to PRD"
+              tasks: *deploy-tasks
       - test-prd:
           jobs:
             build:
