@@ -17,3 +17,57 @@ pipelines:
                    arguments:
                     - -c
                     - echo "Building application"
+      - deploy-dev:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Deployment to DEV"
+      - test-dev:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Testing on DEV"
+      - deploy-int:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Deployment to INT"
+      - test-int:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Testing on INT"
+      - deploy-prd:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Deployment to PRD"
+      - test-prd:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: bash
+                   arguments:
+                    - -c
+                    - echo "Testing on PRD"
