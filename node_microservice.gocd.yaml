@@ -13,6 +13,45 @@ common:
         arguments:
           - -c
           - echo "Testing on ${ENV_NAME} environment"
+    - exec:
+        command: bash
+        arguments:
+          - -c
+          - docker run --network=host -d -t --name api_test_executor_${ENV_NAME} api_test_executor:latest
+    - exec:
+        command: bash
+        arguments:
+          - -c
+          - docker exec api_test_executor_${environment} cucumber --tags=@${ENV_NAME} --format html --out test-output/report.html
+    - exec:
+        run_if: any
+        command: bash
+        arguments:
+          - -c
+          - docker cp api_test_executor_${ENV_NAME}:/usr/src/api-tests/test-output/report.html report_${ENV_NAME}.html
+    - exec:
+        run_if: any
+        command: bash
+        arguments:
+          - -c
+          - docker rm -f api_test_executor_${ENV_NAME}
+    - exec:
+        run_if: failed
+        command: bash
+        arguments:
+          - -c
+          - echo "Send notification with failed status"
+    - exec:
+        run_if: passed
+        command: bash
+        arguments:
+          - -c
+          - echo "Send notification with passed status"
+    
+
+
+    
+
 
 pipelines:
   node-microservice:
