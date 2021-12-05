@@ -47,11 +47,6 @@ common:
         arguments:
           - -c
           - echo "Send notification with passed status"
-    
-
-
-    
-
 
 pipelines:
   node-microservice:
@@ -81,7 +76,7 @@ pipelines:
               ENV_NAME: dev
           jobs:
             test:
-              artifact:
+              artifacts:
                 - build:
                    source: report_dev.html
                    destination: test-output
@@ -99,7 +94,7 @@ pipelines:
               ENV_NAME: int
           jobs:
             test:
-              artifact:
+              artifacts:
                 - build:
                    source: report_int.html
                    destination: test-output
@@ -117,7 +112,7 @@ pipelines:
               ENV_NAME: prd
           jobs:
             test:
-              artifact:
+              artifacts:
                 - build:
                    source: report_prd.html
                    destination: test-output
