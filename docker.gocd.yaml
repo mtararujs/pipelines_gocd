@@ -1,0 +1,50 @@
+---
+    format_version: 2
+    common:
+      build: &build
+        - build:
+            jobs:
+              build:
+                tasks:
+                  - exec:
+                      command: bash
+                      arguments:
+                        - -c
+                        - docker build -t api_test_base . -f ${DOCKERFILE}
+
+    pipelines:
+      api-docker-base:
+        group: defaultGroup
+        lock_behavior: unlockWhenFinished
+        label_template: "${api-tests}"
+        materials:
+          api-tests:
+            git: https://github.com/mtararujs/api_tests_ci_test
+            branch: main
+            shallow_clone: true
+            auto_update: true
+            whitelist:
+              - Gemfile
+        environment_variables:
+          DOCKERFILE: Dockerfile_base
+        stages: *build
+
+
+      api-docker-excutor:
+        group: defaultGroup
+        lock_behavior: unlockWhenFinished
+        label_template: "${api-tests}"
+        materials:
+          api-tests:
+            git: https://github.com/mtararujs/api_tests_ci_test
+            branch: main
+            shallow_clone: true
+            auto_update: true
+            whitelist:
+              - features
+          docker-base:
+            pipeline: api-docker-base
+            stage: build
+        environment_variables:
+          DOCKERFILE: Dockerfile_executor
+        stages: *build
